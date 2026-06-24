@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:3000'
+// Uses local backend in development, deployed backend in production
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
 export const getTasks = async () => {
   const response = await fetch(`${BASE_URL}/tasks`)
