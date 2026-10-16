@@ -1,80 +1,76 @@
-import TaskCard from "./TaskCard"
+// ─── Column.tsx ───────────────────────────────────────────────────────────────
+// Represents one column of the Kanban board (To Do, In Progress, or Done).
+// Receives its tasks pre-filtered by App.tsx — it doesn't filter anything itself.
+// ─────────────────────────────────────────────────────────────────────────────
 
-type Task = {
-  _id: string
-  title: string
-  priority: "high" | "medium" | "low"
-  category: string
-  status: "todo" | "inprogress" | "done"
-  dueDate: string
-}
+import TaskCard from './TaskCard'
+import type { Task, TaskStatus } from '../types'
 
 type ColumnProps = {
-  title: string
-  tasks: Task[]
-  onDelete: (_id: string) => void
-  onMove: (_id: string, newStatus: "todo" | "inprogress" | "done") => void
-  color: "pink" | "purple" | "green"
+  title: string                                           // column heading text e.g. "To Do"
+  tasks: Task[]                                          // tasks to display in this column
+  onEdit: (task: Task) => void                           // opens edit modal in App
+  onDelete: (_id: string) => void                        // bubbles up to App → useTasks
+  onMove: (_id: string, newStatus: TaskStatus) => void   // bubbles up to App → useTasks
+  color: 'pink' | 'purple' | 'green'                    // controls the column's color theme
 }
 
-// Column background and dot colors based on the color prop
+// ─── Color theme mapping ──────────────────────────────────────────────────────
 const columnStyles = {
   pink: {
-    bg: "bg-[#FFE8EE]",       // warmer pink like the photo
-    dot: "bg-pink-400",
-    badge: "bg-pink-400 text-white"
+    bg:    'bg-[#FFE8EE]',              // warm pink background for "To Do"
+    dot:   'bg-pink-400',              // colored dot next to the column title
+    badge: 'bg-pink-400 text-white',   // pill badge showing task count
   },
   purple: {
-    bg: "bg-[#EDE8FF]",       // soft lavender like the photo
-    dot: "bg-purple-400",
-    badge: "bg-purple-400 text-white"
+    bg:    'bg-[#EDE8FF]',             // soft lavender for "In Progress"
+    dot:   'bg-purple-400',
+    badge: 'bg-purple-400 text-white',
   },
   green: {
-    bg: "bg-[#E8FFF3]",       // mint green like the photo
-    dot: "bg-green-400",
-    badge: "bg-green-400 text-white"
+    bg:    'bg-[#E8FFF3]',             // mint green for "Done"
+    dot:   'bg-green-400',
+    badge: 'bg-green-400 text-white',
   },
 }
 
-function Column({ title, tasks, onDelete, onMove, color }: ColumnProps) {
+function Column({ title, tasks, onEdit, onDelete, onMove, color }: ColumnProps) {
   const styles = columnStyles[color]
 
   return (
-    <div className={`${styles.bg} rounded-3xl p-5 w-80 min-h-96`}>
+    <div className={`${styles.bg} rounded-3xl p-5 w-80 min-h-96 flex flex-col`}>
 
-      {/* Column header */}
+      {/* ─── Column Header ────────────────────────────────────────────────── */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2">
           <div className={`w-2 h-2 rounded-full ${styles.dot}`} />
           <h2 className="font-bold text-gray-700">{title}</h2>
         </div>
-        <span className={`text-xs font-bold px-2 py-1 rounded-full ${styles.badge}`}>
+        <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${styles.badge}`}>
           {tasks.length}
         </span>
       </div>
 
-      {/* Empty state */}
-      {tasks.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-12 text-gray-300">
-          <p className="text-4xl mb-2">🌸</p>
-          <p className="text-sm">No tasks here</p>
+      {/* ─── Empty state ──────────────────────────────────────────────────── */}
+      {tasks.length === 0 ? (
+        <div className="flex-1 flex flex-col items-center justify-center py-12 text-gray-300">
+          <p className="text-4xl mb-2 opacity-60">🌸</p>
+          <p className="text-sm font-medium">No tasks here</p>
         </div>
-      )}
+      ) : null}
 
-      {/* Task cards */}
-      {tasks.map(task => (
-        <TaskCard
-          key={task._id}
-          _id={task._id}
-          title={task.title}
-          priority={task.priority}
-          category={task.category}
-          dueDate={task.dueDate}
-          isDone={task.status === 'done'}  // ← add this line
-          onDelete={onDelete}
-          onMove={onMove}
-        />
-      ))}
+      {/* ─── Task cards list ──────────────────────────────────────────────── */}
+      <div className="flex-1">
+        {tasks.map(task => (
+          <TaskCard
+            key={task._id}
+            task={task}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            onMove={onMove}
+          />
+        ))}
+      </div>
     </div>
   )
 }
