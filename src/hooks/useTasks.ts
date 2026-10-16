@@ -11,7 +11,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { useState, useEffect, useCallback } from 'react'
-import { getTasks, addTask, editTask, deleteTask, moveTask } from '../api'
+import { getTasks, addTask, editTask, deleteTask, moveTask, BASE_URL } from '../api'
 import type { Task, TaskStatus, TaskPriority, TaskUpdate } from '../types'
 
 // Declare the full shape of what this hook returns so consumers get autocomplete.
@@ -59,9 +59,12 @@ export function useTasks(): UseTasksReturn {
         const data = await getTasks()
         setTasks(data)
       } catch (err) {
-        // Keep the loadError separate from actionError — a failed initial load
-        // is fatal (we have nothing to show), so it gets a full-screen treatment.
-        setLoadError(err instanceof Error ? err.message : 'Failed to load tasks')
+        const rawMsg = err instanceof Error ? err.message : 'Failed to load tasks'
+        if (rawMsg.includes('Failed to fetch') || rawMsg.includes('NetworkError')) {
+          setLoadError(`Unable to reach the server at ${BASE_URL}. If your backend is hosted on a free tier (e.g. Render/Railway), it may be waking up from sleep (takes 30-60s). Please verify your VITE_API_URL and try again.`)
+        } else {
+          setLoadError(rawMsg)
+        }
       } finally {
         setLoading(false)
       }

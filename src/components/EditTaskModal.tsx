@@ -50,7 +50,7 @@ function EditTaskModal({ task, onEdit, onClose }: EditTaskModalProps) {
 
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold text-gray-800">Edit task ✏️</h2>
+          <h2 className="text-xl font-bold text-gray-800">Edit Task</h2>
           <button
             onClick={onClose}
             className="w-8 h-8 bg-pink-50 hover:bg-pink-100 rounded-full flex items-center justify-center text-gray-400 transition"
@@ -137,7 +137,7 @@ function EditTaskModal({ task, onEdit, onClose }: EditTaskModalProps) {
           disabled={submitting}
           className="w-full bg-pink-400 hover:bg-pink-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-2xl transition-all duration-200"
         >
-          {submitting ? 'Saving...' : 'Save changes 🌸'}
+          {submitting ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
     </div>

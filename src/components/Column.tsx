@@ -53,9 +53,11 @@ function Column({ title, tasks, onEdit, onDelete, onMove, color }: ColumnProps) 
 
       {/* ─── Empty state ──────────────────────────────────────────────────── */}
       {tasks.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center py-12 text-gray-300">
-          <p className="text-4xl mb-2 opacity-60">🌸</p>
-          <p className="text-sm font-medium">No tasks here</p>
+        <div className="flex-1 flex flex-col items-center justify-center py-12 text-gray-400">
+          <svg className="w-9 h-9 mb-2 opacity-30 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="1.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <p className="text-xs font-medium text-gray-400 tracking-wide">No tasks here</p>
         </div>
       ) : null}
 

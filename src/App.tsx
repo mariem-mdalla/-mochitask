@@ -68,9 +68,9 @@ function App() {
   if (loading) {
     return (
       <div className="min-h-screen bg-pink-50/60 flex items-center justify-center">
-        <div className="text-center animate-pulse">
-          <p className="text-4xl mb-3">🌸</p>
-          <p className="text-pink-400 text-lg font-semibold">Loading MochiTask...</p>
+        <div className="text-center">
+          <div className="w-10 h-10 border-3 border-pink-200 border-t-pink-500 rounded-full animate-spin mx-auto mb-3" />
+          <p className="text-pink-500 text-sm font-semibold tracking-wide">Loading MochiTask...</p>
         </div>
       </div>
     )
@@ -81,12 +81,16 @@ function App() {
     return (
       <div className="min-h-screen bg-pink-50 flex items-center justify-center">
         <div className="text-center px-4 max-w-md">
-          <p className="text-4xl mb-2">😢</p>
-          <p className="text-rose-500 text-xl font-bold mb-2">Unable to connect to MochiTask</p>
-          <p className="text-gray-500 text-sm mb-6">{loadError}</p>
+          <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-500 mx-auto flex items-center justify-center mb-3">
+            <svg className="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h2 className="text-rose-600 text-lg font-bold mb-1">Unable to connect to MochiTask</h2>
+          <p className="text-gray-500 text-xs mb-6 leading-relaxed">{loadError}</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-pink-400 text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-pink-500 transition shadow-sm"
+            className="bg-pink-500 text-white px-6 py-2.5 rounded-full text-xs font-semibold hover:bg-pink-600 transition shadow-xs"
           >
             Retry Connection
           </button>
@@ -108,8 +112,12 @@ function App() {
 
         {/* Logo */}
         <div className="flex items-center gap-2.5 mr-6 select-none">
-          <span className="text-2xl">🌸</span>
-          <span className="text-xl font-extrabold tracking-tight text-pink-400">MochiTask</span>
+          <div className="w-8 h-8 rounded-xl bg-pink-400 text-white flex items-center justify-center shadow-xs">
+            <svg className="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="2.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+          </div>
+          <span className="text-lg font-extrabold tracking-tight text-pink-500">MochiTask</span>
         </div>
 
         {/* Real-time search bar */}
@@ -121,7 +129,9 @@ function App() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <span className="absolute left-3.5 top-2.5 text-pink-300 text-xs">🔍</span>
+            <svg className="w-4 h-4 absolute left-3.5 top-2.5 text-pink-300 stroke-current pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
             {search && (
               <button
                 onClick={() => setSearch('')}
@@ -137,7 +147,7 @@ function App() {
         {/* Daily progress indicators */}
         <div className="flex items-center gap-3.5 ml-auto">
           <div className="text-right">
-            <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">Progress</p>
+            <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Progress</p>
             <p className="text-xs font-bold text-gray-700">{done}/{total}</p>
           </div>
 
@@ -148,8 +158,8 @@ function App() {
             />
           </div>
 
-          <div className="w-9 h-9 bg-purple-100 border border-purple-200 rounded-full flex items-center justify-center text-base shadow-xs">
-            🌸
+          <div className="w-8 h-8 bg-purple-100 border border-purple-200 text-purple-700 font-bold rounded-full flex items-center justify-center text-xs shadow-xs tracking-wider">
+            MT
           </div>
         </div>
       </nav>
@@ -160,17 +170,17 @@ function App() {
         {/* Header Greeting */}
         <div className="mb-8 flex justify-between items-end">
           <div>
-            <h1 className="text-3xl font-extrabold text-gray-800 tracking-tight">
-              {greeting}, friend 🌷
+            <h1 className="text-2xl font-extrabold text-gray-800 tracking-tight">
+              {greeting}
             </h1>
             <p className="text-gray-500 mt-1 text-sm font-medium">
-              {tasks.filter(t => t.status !== 'done').length} tasks waiting, {done} all wrapped up. You've got this!
+              {tasks.filter(t => t.status !== 'done').length} tasks waiting, {done} completed.
             </p>
           </div>
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="hidden sm:inline-flex items-center gap-2 bg-pink-400 hover:bg-pink-500 text-white font-semibold text-sm px-4 py-2.5 rounded-2xl shadow-sm hover:shadow transition"
+            className="hidden sm:inline-flex items-center gap-2 bg-pink-400 hover:bg-pink-500 text-white font-semibold text-sm px-4 py-2 rounded-2xl shadow-xs hover:shadow transition"
           >
             <span>+ New Task</span>
             <kbd className="bg-pink-500/60 text-[10px] px-1.5 py-0.5 rounded text-pink-100">N</kbd>
@@ -252,11 +262,14 @@ function App() {
 
       {/* ===== ACTION ERROR NOTIFICATION TOAST ===== */}
       {actionError && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-rose-50 border border-rose-300 text-rose-700 px-6 py-3 rounded-full text-sm font-medium shadow-xl z-50">
-          <span>⚠️ {actionError}</span>
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2.5 bg-rose-50 border border-rose-300 text-rose-700 px-5 py-2.5 rounded-full text-xs font-medium shadow-lg z-50">
+          <svg className="w-4 h-4 text-rose-500 stroke-current shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <span>{actionError}</span>
           <button
             onClick={clearActionError}
-            className="text-rose-400 hover:text-rose-700 font-bold ml-2 text-base"
+            className="text-rose-400 hover:text-rose-700 font-bold ml-2 text-sm leading-none"
             aria-label="Dismiss error notification"
           >
             ×

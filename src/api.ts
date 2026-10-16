@@ -8,7 +8,8 @@ import type { Task, TaskUpdate } from './types'
 
 // import.meta.env reads from the .env file at build time (Vite's convention).
 // In production, set VITE_API_URL to the deployed backend URL.
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const rawUrl = (import.meta.env.VITE_API_URL as string | undefined) || 'http://localhost:3000'
+export const BASE_URL = rawUrl.replace(/\/+$/, '')
 
 // ─── User Identity ────────────────────────────────────────────────────────────
 // Each browser gets a persistent random UUID stored in localStorage.
